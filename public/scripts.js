@@ -1,3 +1,5 @@
+var objects=[];
+
 //se crea la escena
 var scene = new THREE.Scene();
 
@@ -12,6 +14,7 @@ var material = new THREE.MeshBasicMaterial( {color: 0xf4efee} );
 var cube = new THREE.Mesh( geometry, material );
 cube.position.set(0,-10,0);
 scene.add( cube );
+objects.push(cube);
 
 //se crea un cuadro que representa la pared
 var geometry2 = new THREE.BoxGeometry( 3000, 2000,10 );
@@ -19,6 +22,7 @@ var material2= new THREE.MeshBasicMaterial( {color: 0xf4ffe3} );
 var cube2 = new THREE.Mesh( geometry2, material2 );
 cube2.position.set(0,990, -1500);
 scene.add( cube2 );
+objects.push(cube2);
 
 //se crea cámara con perspectiva
 var camera = new THREE.PerspectiveCamera( 75*10, window.innerWidth/window.innerHeight, 0.1*10, 1000*10 );
@@ -66,31 +70,13 @@ mtlLoader.load('r2-d2.mtl', function (materials) {
         object.position.x -= 0;
         object.position.y -=0;
         object.position.z -= 0;
+        objects.push(object);
          
     });
 
 });
 
-var mtlIphone = new THREE.MTLLoader();
-mtlIphone.setTexturePath('./Objetos/iphoneX/');
-mtlIphone.setPath('./Objetos/iphoneX/');
-mtlIphone.load('Iphone_seceond_version_finished.mtl', function (materials) {
 
-    materials.preload();
-
-    var iphoneobjLoader = new THREE.OBJLoader();
-    iphoneobjLoader.setMaterials(materials);
-    iphoneobjLoader.setPath('./Objetos/iphoneX/');
-    iphoneobjLoader.load('Iphone seceond version finished.obj', function (object1) {
-        scene.add(object1);
-        object1.position.y = 50;
-        object1.position.x = 0;
-        object1.position.z = -110;
-        object1.scale.set(0.5, 0.5, 0.5);
-
-    });
-
-});
 
 var animate = function () {
 	requestAnimationFrame( animate );
@@ -98,33 +84,31 @@ var animate = function () {
 	renderer.render(scene, camera);
 };
 
-animate();
+var mouse = new THREE.Vector2();
 
 class PickHelper {
     constructor() {
       this.raycaster = new THREE.Raycaster();
       this.pickedObject = null;
+ 
     }
     pick(normalizedPosition, scene, camera, time) {
+      
       // restore the color if there is a picked object
       if (this.pickedObject) {
         this.pickedObject.scale.set(1,1,1)
         this.pickedObject = undefined;
       }
-
+      
+      
       // cast a ray through the frustum
       this.raycaster.setFromCamera(normalizedPosition, camera);
       // get the list of objects the ray intersected
-      const intersectedObjects = this.raycaster.intersectObjects(scene.children);
-      if (intersectedObjects.length) {
-        // pick the first object. It's the closest one
-        this.pickedObject = intersectedObjects[0].object;
-        // save its color
+      var intersects = this.raycaster.intersectObjects(objects, true); 
+      if (intersects.length > 0) {
+        this.pickedObject = intersects[0].object;
         this.pickedObject.scale.set(2,2,2);
-        console.log("Objeto")
-        //this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
-        // set its emissive color to flashing red/yellow
-        //this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+    
       }
     }
   }
@@ -175,6 +159,7 @@ class PickHelper {
     const pos = getCanvasRelativePosition(event);
     pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
     pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+
   }
 
   function clearPickPosition() {
@@ -185,7 +170,7 @@ class PickHelper {
     pickPosition.x = -100000;
     pickPosition.y = -100000;
   }
-  window.addEventListener('mousemove', setPickPosition);
+  window.addEventListener('click', setPickPosition);
   window.addEventListener('mouseout', clearPickPosition);
   window.addEventListener('mouseleave', clearPickPosition);
 
@@ -200,3 +185,4 @@ class PickHelper {
   });
 
   window.addEventListener('touchend', clearPickPosition);
+animate();
