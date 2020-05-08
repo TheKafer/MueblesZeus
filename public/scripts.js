@@ -24,8 +24,8 @@ scene.add( cube2 );
 var camera = new THREE.PerspectiveCamera( 75*10, window.innerWidth/window.innerHeight, 0.1*10, 1000*10 );
 camera.position.set(1000,1000,1000);
 
-
-var renderer = new THREE.WebGLRenderer();
+const canvas = document.querySelector('#c');
+var renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
@@ -36,8 +36,6 @@ controls.dampingFactor = 0.25;
 controls.enableZoom = true;
 controls.enableKeys = true;
 
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector3();
 
 var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
 keyLight.position.set(-100, 0, 100);
@@ -76,7 +74,7 @@ mtlLoader.load('r2-d2.mtl', function (materials) {
 var mtlIphone = new THREE.MTLLoader();
 mtlIphone.setTexturePath('./Objetos/iphoneX/');
 mtlIphone.setPath('./Objetos/iphoneX/');
-mtlIphone.load('iphone_seceond_version_finished.mtl', function (materials) {
+mtlIphone.load('Iphone_seceond_version_finished.mtl', function (materials) {
 
     materials.preload();
 
@@ -101,3 +99,104 @@ var animate = function () {
 };
 
 animate();
+
+class PickHelper {
+    constructor() {
+      this.raycaster = new THREE.Raycaster();
+      this.pickedObject = null;
+    }
+    pick(normalizedPosition, scene, camera, time) {
+      // restore the color if there is a picked object
+      if (this.pickedObject) {
+        this.pickedObject.scale.set(1,1,1)
+        this.pickedObject = undefined;
+      }
+
+      // cast a ray through the frustum
+      this.raycaster.setFromCamera(normalizedPosition, camera);
+      // get the list of objects the ray intersected
+      const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+      if (intersectedObjects.length) {
+        // pick the first object. It's the closest one
+        this.pickedObject = intersectedObjects[0].object;
+        // save its color
+        this.pickedObject.scale.set(2,2,2);
+        console.log("Objeto")
+        //this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
+        // set its emissive color to flashing red/yellow
+        //this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+      }
+    }
+  }
+
+  const pickPosition = {x: 0, y: 0};
+  const pickHelper = new PickHelper();
+  clearPickPosition();
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+
+  function render(time) {
+    time *= 0.001;  // convert to seconds;
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+
+    pickHelper.pick(pickPosition, scene, camera, time);
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left) * canvas.width  / rect.width,
+      y: (event.clientY - rect.top ) * canvas.height / rect.height,
+    };
+  }
+
+  function setPickPosition(event) {
+    const pos = getCanvasRelativePosition(event);
+    pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+  }
+
+  function clearPickPosition() {
+    // unlike the mouse which always has a position
+    // if the user stops touching the screen we want
+    // to stop picking. For now we just pick a value
+    // unlikely to pick something
+    pickPosition.x = -100000;
+    pickPosition.y = -100000;
+  }
+  window.addEventListener('mousemove', setPickPosition);
+  window.addEventListener('mouseout', clearPickPosition);
+  window.addEventListener('mouseleave', clearPickPosition);
+
+  window.addEventListener('touchstart', (event) => {
+    // prevent the window from scrolling
+    event.preventDefault();
+    setPickPosition(event.touches[0]);
+  }, {passive: false});
+
+  window.addEventListener('touchmove', (event) => {
+    setPickPosition(event.touches[0]);
+  });
+
+  window.addEventListener('touchend', clearPickPosition);
