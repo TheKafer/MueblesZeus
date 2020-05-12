@@ -1,6 +1,5 @@
-// let m = document.getElementById('mueble2');
-// m.addEventListener('mousedown');
-// console.log(m);
+import { DragControls } from './DragControls.js';
+var objects = [];
 
 let k = document.querySelectorAll('ul li ul li a');
 
@@ -27,4 +26,24 @@ function addNewMesh(name) {
   var cube = new THREE.Mesh(geometry, material);
   //   cube.position.y = 2;
   scene.add(cube);
+
+  objects.push(cube);
+
+  var controlsDrag = new DragControls(
+    [...objects],
+    camera,
+    renderer.domElement
+  );
+  controlsDrag.addEventListener('drag', () => {
+    render();
+    controls.enabled = false;
+  });
+
+  // controlsDrag.addEventListener('dragstart', () => {
+  //   console.log('dragstart');
+  // });
+
+  controlsDrag.addEventListener('dragend', () => {
+    controls.enabled = true;
+  });
 }
