@@ -19,7 +19,6 @@ window.addEventListener('resize', () => {
   renderer.setSize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
-  console.log('Holi');
 });
 
 // Controls
