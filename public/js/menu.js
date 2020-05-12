@@ -3,10 +3,6 @@ var objects = [];
 
 let k = document.querySelectorAll('ul li ul li a');
 
-// for (let i of k) {
-//   console.log(i.id);
-// }
-
 for (let i = 0; i < 3; i++) {
   k[i].addEventListener('mousedown', function () {
     event.preventDefault();
@@ -18,13 +14,13 @@ function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
 
-  var geometry = new THREE.BoxGeometry(1, 1, 1);
+  var geometry = new THREE.BoxGeometry(100, 100, 100);
   var material = new THREE.MeshBasicMaterial({
     color: 0x0000ff,
     wireframe: true,
   });
   var cube = new THREE.Mesh(geometry, material);
-  //   cube.position.y = 2;
+  cube.position.y = 50;
   scene.add(cube);
 
   objects.push(cube);
@@ -34,16 +30,18 @@ function addNewMesh(name) {
     camera,
     renderer.domElement
   );
-  controlsDrag.addEventListener('drag', () => {
-    render();
+
+  controlsDrag.addEventListener('dragstart', () => {
     controls.enabled = false;
   });
-
-  // controlsDrag.addEventListener('dragstart', () => {
-  //   console.log('dragstart');
+  // controlsDrag.addEventListener('drag', (event) => {
+    
+    
   // });
-
+ 
+ 
   controlsDrag.addEventListener('dragend', () => {
+    objects[0].position.y = 50;
     controls.enabled = true;
   });
 }

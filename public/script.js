@@ -1,18 +1,50 @@
+// import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/OBJLoader2.js';
+// import {MTLLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/MTLLoader.js';
+
+
 var canvas = document.getElementById('canvas');
 
-var scene = new THREE.Scene();
+var scene = new THREE.Scene();//se crea la escena
+var axisHelper = new THREE.AxesHelper( 1500 );//se crean los ejes para facilitar todo
+scene.add( axisHelper );//se añaden los ejes a la escena
+
 var renderer = new THREE.WebGLRenderer();
 // renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setSize(canvas.offsetWidth, canvas.clientHeight);
 
 scene.background = new THREE.Color(0x111111);
 var aspect = canvas.offsetWidth / canvas.clientHeight;
-var camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
-// document.body.appendChild(renderer.domElement)
+
+var camera = new THREE.PerspectiveCamera(75*10, aspect, 0.1*10, 1000*10);
 canvas.appendChild(renderer.domElement);
-camera.position.z = 5;
+camera.position.set(1000,1000,1000);
+
+//se crea un cuadrado que representa el piso
+var geometry = new THREE.BoxGeometry( 3000, 10, 3000 );//geometría
+var material = new THREE.MeshBasicMaterial( {color: 0xf4efee} );//color
+var cube = new THREE.Mesh( geometry, material );
+cube.position.set(0,-10,0);//posición en la escena
+scene.add( cube );//se añade
+
+//se crea un cuadro que representa la pared
+var geometry2 = new THREE.BoxGeometry( 3000, 2000,10 );//geometría
+var material2= new THREE.MeshBasicMaterial( {color: 0xf4ffe3} );//color
+var cube2 = new THREE.Mesh( geometry2, material2 );
+cube2.position.set(0,990, -1500);//posición en la escena
+scene.add( cube2 );//se añade
+
+//las siguientes líneas de código se utilizan para cargar el .obj y sus texturas
+// 'Objetos/R2/r2-d2.obj'
+
+
+
+
+
+
 
 // Resize
+
+
 window.addEventListener('resize', () => {
   var width = canvas.offsetWidth;
   var height = canvas.clientHeight;
@@ -24,31 +56,9 @@ window.addEventListener('resize', () => {
 // Controls
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-// create objects
-var geometry1 = new THREE.BoxGeometry(1, 1, 1);
-var material1 = new THREE.MeshNormalMaterial();
-var cube = new THREE.Mesh(geometry1, material1);
-cube.position.x = 2;
-scene.add(cube);
-
-var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00,
-  wireframe: true,
-});
-var cube = new THREE.Mesh(geometry, material);
-cube.position.y = 2;
-scene.add(cube);
-
 // Light
 var ambientLight = new THREE.AmbientLight(0xffffff, 5.0);
 scene.add(ambientLight);
-
-// game logic
-var update = () => {
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-};
 
 // draw scene
 var render = () => {
@@ -58,7 +68,7 @@ var render = () => {
 // run game Loop ( update, render, repeat )
 var GameLoop = () => {
   requestAnimationFrame(GameLoop);
-  update();
+  
   render();
 };
 
