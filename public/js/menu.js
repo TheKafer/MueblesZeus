@@ -19,7 +19,10 @@ var objects = [];
 //       onError
 //     );
 // });
-
+var cube;
+var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
+var geometry = new THREE.BoxGeometry( 100, 2, 100 );//geometría
+cube = new THREE.Mesh(geometry, material );
 var k = document.querySelectorAll('ul li ul li a');
 
 // for (let i of k) {
@@ -66,6 +69,12 @@ function addNewMesh(name) {
 
             controlsDrag.addEventListener( 'drag', function ( event ) {
               event.object.position.y=0;
+              // let geometry = new THREE.BoxGeometry( event.object.scale.x, 2, event.object.scale.z );//geometría
+              cube.scale.x=event.object.scale.x;
+              cube.scale.z=event.object.scale.z;
+              cube.position.set( event.object.position.x,0, event.object.position.z);//posición en la escena
+              scene.add( cube );//se añade
+              
             } );
 
             controlsDrag.addEventListener( 'dragend', function ( event ) {
@@ -74,6 +83,7 @@ function addNewMesh(name) {
               camera.position.set(2000,2000,2000);
               camera.lookAt(new THREE.Vector3(0,0,0));
               controls.target=new THREE.Vector3(0,0,0);
+              scene.remove(cube);
             } );
 
           },
