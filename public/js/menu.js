@@ -1,11 +1,6 @@
-import { DragControls } from './DragControls.js';
-import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/OBJLoader2.js';
-import {MTLLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/MTLLoader.js';
-import {MtlObjBridge} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
-
-<<<<<<< Updated upstream
+import { DragControls } from './Controls/DragControls.js';
 var objects = [];
-=======
+
 // new MTLLoader(manager)
 // .setPath('Objects/room/')
 // .load('EmptyRoom(OBJ).mtl', function (materials) {
@@ -26,9 +21,10 @@ var objects = [];
 // });
 
 var k = document.querySelectorAll('ul li ul li a');
->>>>>>> Stashed changes
 
-let k = document.querySelectorAll('ul li ul li a');
+// for (let i of k) {
+//   console.log(i.id);
+// }
 
 for (let i = 0; i < 3; i++) {
   k[i].addEventListener('mousedown', function () {
@@ -41,32 +37,6 @@ function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
 
-<<<<<<< Updated upstream
-  if(name=="mueble2"){
-    console.log("okay");
-    var geometry = new THREE.BoxGeometry(100, 100, 100);
-  var material = new THREE.MeshBasicMaterial({
-    color: 0x0000ff,
-    wireframe: true,
-  });
-  var cube = new THREE.Mesh(geometry, material);
-  //   cube.position.y = 2;
-  scene.add(cube);
-  objects.push(cube);
-  }else{
-    var mtlLoader = new MTLLoader();
-    mtlLoader.load('Objetos/R2/r2-d2.mtl', (mtlParseResult) => {
-    var objLoader = new OBJLoader2();
-    var materials =  MtlObjBridge.addMaterialsFromMtlLoader(mtlParseResult);
-  //   materials.Material.side = THREE.DoubleSide;
-    objLoader.addMaterials(materials);
-    objLoader.load('Objetos/R2/r2-d2.obj', (root) => {
-      scene.add(root);
-      root.position.y=100;
-      objects.push(root);
-    });
-  });
-=======
   new MTLLoader(manager)
     .setPath('Objects/R2/')
     .load('r2-d2.mtl', function (materials) {
@@ -117,26 +87,18 @@ function addNewMesh(name) {
 import { DDSLoader } from './Loaders/DDSLoader.js';
 import { MTLLoader } from './Loaders/MTLLoader.js';
 import { OBJLoader } from './Loaders/OBJLoader.js';
->>>>>>> Stashed changes
 
+var onProgress = function (xhr) {
+  if (xhr.lengthComputable) {
+    var percentComplete = (xhr.loaded / xhr.total) * 100;
+    console.log(Math.round(percentComplete, 2) + '% downloaded');
   }
+};
 
-  var controlsDrag = new DragControls(
-    [...objects],
-    camera,
-    renderer.domElement
-  );
+var onError = function () {};
 
-  controlsDrag.addEventListener('dragstart', () => {
-    controls.enabled = false;
-  });
-  controlsDrag.addEventListener('drag', () => {
-    render();
-    objects[0].position.y = 50;
-  });
+var manager = new THREE.LoadingManager();
+manager.addHandler(/\.dds$/i, new DDSLoader());
 
-  controlsDrag.addEventListener('dragend', () => {
-    
-    controls.enabled = true;
-  });
-}
+// comment in the following line and import TGALoader if your asset uses TGA textures
+// manager.addHandler( /\.tga$/i, new TGALoader() );
