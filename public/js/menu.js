@@ -3,7 +3,30 @@ import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/thre
 import {MTLLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/MTLLoader.js';
 import {MtlObjBridge} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/obj2/bridge/MtlObjBridge.js';
 
+<<<<<<< Updated upstream
 var objects = [];
+=======
+// new MTLLoader(manager)
+// .setPath('Objects/room/')
+// .load('EmptyRoom(OBJ).mtl', function (materials) {
+//   materials.preload();
+
+//   new OBJLoader(manager)
+//     .setMaterials(materials)
+//     .setPath('Objects/room/')
+//     .load(
+//       'EmptyRoom(OBJ).obj',
+//       function (object) {
+//         object.scale.set(100,100,100);
+//         scene.add(object);
+//       },
+//       onProgress,
+//       onError
+//     );
+// });
+
+var k = document.querySelectorAll('ul li ul li a');
+>>>>>>> Stashed changes
 
 let k = document.querySelectorAll('ul li ul li a');
 
@@ -18,6 +41,7 @@ function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
 
+<<<<<<< Updated upstream
   if(name=="mueble2"){
     console.log("okay");
     var geometry = new THREE.BoxGeometry(100, 100, 100);
@@ -42,6 +66,58 @@ function addNewMesh(name) {
       objects.push(root);
     });
   });
+=======
+  new MTLLoader(manager)
+    .setPath('Objects/R2/')
+    .load('r2-d2.mtl', function (materials) {
+      materials.preload();
+
+      new OBJLoader(manager)
+        .setMaterials(materials)
+        .setPath('Objects/R2/')
+        .load(
+          'r2-d2.obj',
+          function (object) {
+            scene.add(object);
+            objects.push(object);
+
+            var controlsDrag = new DragControls(
+              [...objects],
+              camera,
+              renderer.domElement
+            );
+
+            controlsDrag.addEventListener( 'dragstart', function ( event ) {
+              camera.position.set(event.object.position.x,3000,event.object.position.z);
+              camera.lookAt(new THREE.Vector3(event.object.position.x,0,event.object.position.z));
+              controls.target=new THREE.Vector3(event.object.position.x,0,event.object.position.z);
+              controls.enabled = false; 
+            } );
+
+            controlsDrag.addEventListener( 'drag', function ( event ) {
+              event.object.position.y=0;
+            } );
+
+            controlsDrag.addEventListener( 'dragend', function ( event ) {
+              controls.enabled = true;
+              event.object.position.y=0;
+              camera.position.set(2000,2000,2000);
+              camera.lookAt(new THREE.Vector3(0,0,0));
+              controls.target=new THREE.Vector3(0,0,0);
+            } );
+
+          },
+          onProgress,
+          onError
+        );
+    });
+}
+
+
+import { DDSLoader } from './Loaders/DDSLoader.js';
+import { MTLLoader } from './Loaders/MTLLoader.js';
+import { OBJLoader } from './Loaders/OBJLoader.js';
+>>>>>>> Stashed changes
 
   }
 
