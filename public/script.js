@@ -1,7 +1,3 @@
-// import {OBJLoader2} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/OBJLoader2.js';
-// import {MTLLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/MTLLoader.js';
-
-
 var canvas = document.getElementById('canvas');
 
 var scene = new THREE.Scene();//se crea la escena
@@ -33,18 +29,7 @@ var cube2 = new THREE.Mesh( geometry2, material2 );
 cube2.position.set(0,990, -1500);//posición en la escena
 scene.add( cube2 );//se añade
 
-//las siguientes líneas de código se utilizan para cargar el .obj y sus texturas
-// 'Objetos/R2/r2-d2.obj'
-
-
-
-
-
-
-
 // Resize
-
-
 window.addEventListener('resize', () => {
   var width = canvas.offsetWidth;
   var height = canvas.clientHeight;
@@ -57,8 +42,16 @@ window.addEventListener('resize', () => {
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Light
-var ambientLight = new THREE.AmbientLight(0xffffff, 5.0);
-scene.add(ambientLight);
+var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+keyLight.position.set(-100, 0, 100);
+var fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+fillLight.position.set(100, 0, 100);
+var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+backLight.position.set(100, 0, -100).normalize();
+scene.add(keyLight);
+scene.add(fillLight);
+scene.add(backLight);
+
 
 // draw scene
 var render = () => {
