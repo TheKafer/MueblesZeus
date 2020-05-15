@@ -2,3 +2,76 @@ canvas {
   /* position: absolute; */
   display: block;
 }
+
+.sidebar-nav {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 80% 20%;
+  grid-template-areas:
+    'ul'
+    'footer';
+}
+
+.ul {
+  grid-area: ul;
+}
+
+.lista-botones {
+  grid-area: footer;
+  display: block;
+  width: 100%;
+}
+
+.lista-botones ul {
+  height: 100%;
+}
+
+.control-buttons {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100%;
+  grid-template-areas: 'delete rotate move';
+}
+
+.delete {
+  grid-area: delete;
+}
+.rotate {
+  grid-area: rotate;
+}
+.move {
+  grid-area: move;
+}
+
+.control-buttons li {
+  width: 100%;
+  padding: 0;
+}
+
+.control-buttons li a {
+  width: 100%;
+  height: 80%;
+  padding: 0 !important;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.control-buttons li a i {
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 300%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
