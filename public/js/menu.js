@@ -53,7 +53,7 @@ function addNewMesh(name) {
           function (object) {
             scene.add(object);
             objects.push(object);
-
+            
             var controlsDrag = new DragControls(
               [...objects],
               camera,
