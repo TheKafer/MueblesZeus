@@ -1,6 +1,5 @@
-
-
 var canvas = document.getElementById('canvas');//se obtiene el canvas
+var estado=0;
 
 var scene = new THREE.Scene();
 var axisHelper = new THREE.AxesHelper( 1500 );//se crean los ejes para facilitar todo
@@ -21,24 +20,53 @@ camera.position.set(2000,2000,2000);
 
 //se crea un cuadrado que representa el piso
 var geometry = new THREE.BoxGeometry( 3000, 10, 3000 );//geometría
-var material = new THREE.MeshBasicMaterial( {color: 0xCBAC6E } );//color
+const loader = new THREE.TextureLoader();
+const texture = loader.load('Objects/textures/2.jpg');
+
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.magFilter = THREE.NearestFilter;
+texture.repeat.set(5,5);
+
+var material = new THREE.MeshPhongMaterial({
+  map:texture,
+  bumpMap:texture,
+  normalMap:texture
+});
 var cube = new THREE.Mesh( geometry, material );
 cube.position.set(0,-10,0);//posición en la escena
 scene.add( cube );//se añade
 
+
+
 //se crea un cuadro que representa la pared
-var geometry2 = new THREE.BoxGeometry( 0, 800,3000 );//geometría
-var material2= new THREE.MeshBasicMaterial( {color: 0xADF866 } );//color
+var geometry2 = new THREE.BoxGeometry( 0, 800,3000);//geometría
+const texture2 = loader.load('Objects/textures/3.jpg');
+
+texture2.wrapS = THREE.RepeatWrapping;
+texture2.wrapT = THREE.RepeatWrapping;
+texture2.magFilter = THREE.NearestFilter;
+texture2.repeat.set(10,5);
+
+var material2 = new THREE.MeshPhongMaterial({
+  map:texture2,
+  bumpMap:texture2,
+  normalMap:texture2
+});
 var cube2 = new THREE.Mesh( geometry2, material2 );
 cube2.position.set(-1500,390,0);//posición en la escena
 scene.add( cube2 );//se añade
 
 //se crea un cuadro que representa la pared
-var geometry2 = new THREE.BoxGeometry( 3000, 800,10 );//geometría
-var material2= new THREE.MeshBasicMaterial( {color: 0xADF866} );//color
-var cube2 = new THREE.Mesh( geometry2, material2 );
-cube2.position.set(0,390, -1500);//posición en la escena
-scene.add( cube2 );//se añade
+var geometry = new THREE.BoxGeometry( 3000, 800,10);//geometría
+var material = new THREE.MeshPhongMaterial({
+  map:texture2,
+  bumpMap:texture2,
+  normalMap:texture2
+});
+var cube3 = new THREE.Mesh( geometry, material );
+cube3.position.set(0,390, -1500);//posición en la escena
+scene.add( cube3 );//se añade
 
 // Resize
 window.addEventListener('resize', () => {
@@ -58,15 +86,21 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
 // Light
-var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
-keyLight.position.set(-100, 0, 100);
-var fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
-fillLight.position.set(100, 0, 100);
-var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-backLight.position.set(100, 0, -100).normalize();
-scene.add(keyLight);
-scene.add(fillLight);
-scene.add(backLight);
+
+var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+scene.add( light );
+
+// var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+// keyLight.position.set(-100, 0, 100);
+// var fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+// fillLight.position.set(100, 0, 100);
+// var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+// backLight.position.set(100, 0, -100).normalize();
+// scene.add(keyLight);
+// scene.add(fillLight);
+// scene.add(backLight);
+
+
 
 // draw scene
 var render = () => {
