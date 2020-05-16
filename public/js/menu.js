@@ -1,6 +1,28 @@
 import { DragControls } from './Controls/DragControls.js';
 var objects = [];
 
+// new MTLLoader(manager)
+// .setPath('Objects/room/')
+// .load('EmptyRoom(OBJ).mtl', function (materials) {
+//   materials.preload();
+
+//   new OBJLoader(manager)
+//     .setMaterials(materials)
+//     .setPath('Objects/room/')
+//     .load(
+//       'EmptyRoom(OBJ).obj',
+//       function (object) {
+//         object.scale.set(100,100,100);
+//         scene.add(object);
+//       },
+//       onProgress,
+//       onError
+//     );
+// });
+var cube;
+var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
+var geometry = new THREE.BoxGeometry( 100, 2, 100 );//geometría
+cube = new THREE.Mesh(geometry, material );
 var k = document.querySelectorAll('ul li ul li a');
 
 // for (let i of k) {
@@ -31,7 +53,6 @@ function addNewMesh(name) {
           function (object) {
             scene.add(object);
             objects.push(object);
-            
             var controlsDrag = new DragControls(
               [...objects],
               camera,
