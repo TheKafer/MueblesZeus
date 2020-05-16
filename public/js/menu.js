@@ -1,6 +1,28 @@
 import { DragControls } from './Controls/DragControls.js';
 var objects = [];
 
+// new MTLLoader(manager)
+// .setPath('Objects/room/')
+// .load('EmptyRoom(OBJ).mtl', function (materials) {
+//   materials.preload();
+
+//   new OBJLoader(manager)
+//     .setMaterials(materials)
+//     .setPath('Objects/room/')
+//     .load(
+//       'EmptyRoom(OBJ).obj',
+//       function (object) {
+//         object.scale.set(100,100,100);
+//         scene.add(object);
+//       },
+//       onProgress,
+//       onError
+//     );
+// });
+var cube;
+var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
+var geometry = new THREE.BoxGeometry( 100, 2, 100 );//geometría
+cube = new THREE.Mesh(geometry, material );
 var k = document.querySelectorAll('ul li ul li a');
 
 // for (let i of k) {
@@ -29,22 +51,41 @@ function addNewMesh(name) {
         .load(
           'r2-d2.obj',
           function (object) {
-            //   object.position.y = -95;
             scene.add(object);
             objects.push(object);
 
-            controlsDrag = new DragControls(
+            var controlsDrag = new DragControls(
               [...objects],
               camera,
               renderer.domElement
             );
-            controlsDrag.addEventListener('drag', () => {
-              render();
-              controls.enabled = false;
-            });
-            controlsDrag.addEventListener('dragend', () => {
+
+            controlsDrag.addEventListener( 'dragstart', function ( event ) {
+              camera.position.set(event.object.position.x,3000,event.object.position.z);
+              camera.lookAt(new THREE.Vector3(event.object.position.x,0,event.object.position.z));
+              controls.target=new THREE.Vector3(event.object.position.x,0,event.object.position.z);
+              controls.enabled = false; 
+            } );
+
+            controlsDrag.addEventListener( 'drag', function ( event ) {
+              event.object.position.y=0;
+              // let geometry = new THREE.BoxGeometry( event.object.scale.x, 2, event.object.scale.z );//geometría
+              cube.scale.x=event.object.scale.x;
+              cube.scale.z=event.object.scale.z;
+              cube.position.set( event.object.position.x,0, event.object.position.z);//posición en la escena
+              scene.add( cube );//se añade
+              
+            } );
+
+            controlsDrag.addEventListener( 'dragend', function ( event ) {
               controls.enabled = true;
-            });
+              event.object.position.y=0;
+              camera.position.set(2000,2000,2000);
+              camera.lookAt(new THREE.Vector3(0,0,0));
+              controls.target=new THREE.Vector3(0,0,0);
+              scene.remove(cube);
+            } );
+
           },
           onProgress,
           onError
@@ -52,14 +93,6 @@ function addNewMesh(name) {
     });
 }
 
-var controlsDrag = new DragControls([...objects], camera, renderer.domElement);
-controlsDrag.addEventListener('drag', () => {
-  render();
-  controls.enabled = false;
-});
-controlsDrag.addEventListener('dragend', () => {
-  controls.enabled = true;
-});
 
 import { DDSLoader } from './Loaders/DDSLoader.js';
 import { MTLLoader } from './Loaders/MTLLoader.js';
