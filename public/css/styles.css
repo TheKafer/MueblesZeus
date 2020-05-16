@@ -79,7 +79,7 @@ Sidebar
 Sidebar Nav
 ----------------*/
 .sidebar-nav {
-  position: fixed;
+  position: relative;
   background-color: #19222a;
   height: 100%;
   font-weight: 400;
