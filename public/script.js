@@ -34,10 +34,10 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Light
 
-var light = new THREE.AmbientLight(0xffffff); // soft white light
+var light = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
 scene.add(light);
-var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(3000, 3000, 3000);
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+directionalLight.position.set(3000, 3000, -3000);
 scene.add(directionalLight);
 
 // var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
