@@ -21,18 +21,32 @@ for (let i = 0; i < 3; i++) {
 function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
-
   new MTLLoader(manager)
-    .setPath('Objects/R2/')
-    .load('r2-d2.mtl', function (materials) {
+    .setPath('Objects/'+name+'/')
+    .load(name+'.mtl', function (materials) {
       materials.preload();
 
       new OBJLoader(manager)
         .setMaterials(materials)
-        .setPath('Objects/R2/')
+        .setPath('Objects/'+name+'/')
         .load(
-          'r2-d2.obj',
+          name+'.obj',
           function (object) {
+            // var escalas=[];
+            // for(let i=0;i<transformaciones.length;i++){
+            //   if(transformaciones[i].name==name){
+            //     escalas=transformaciones[i];
+            //   }
+            // }
+            // console.log(escalas);
+            // object.scale.set(escalas.escalaX,escalas.escalaY,escalas.escalaZ);
+            // object.rotateX(THREE.Math.degToRad(escalas.rotacionx));
+            // object.rotateY(THREE.Math.degToRad(escalas.rotaciony));
+            // object.rotateZ(THREE.Math.degToRad(escalas.rotacionz));
+            // object.position.set(escalas.posicionx,escalas.posiciony,escalas.posicionz);
+  
+            // object.rotate.set(THREE.Math.degToRad(escalas.rotacionx),THREE.Math.degToRad(escalas.rotaciony),THREE.Math.degToRad(escalas.rotacionz));
+        
             scene.add(object);
             objects.push(object);
             
@@ -60,8 +74,8 @@ controlsDrag.addEventListener( 'dragstart', function ( event ) {
 
   if(estado==1){
     // event.object.scale.set(0,0,0);
-    var index=objects.indexOf(event.object);
-    objects.splice(index,1);
+    // var index=objects.indexOf(event.object);
+    // objects.splice(index,1);
     event.object.scale.set(0,0,0);
     // scene.remove(event.object);
     // event.object.geometry.dispose();
