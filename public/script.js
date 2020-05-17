@@ -13,7 +13,7 @@ var aspect = canvas.offsetWidth / canvas.clientHeight;
 
 //cámara y posición de ella
 
-var camera = new THREE.PerspectiveCamera(750, aspect, 1, 10000);
+var camera = new THREE.PerspectiveCamera(750, aspect, 1, 50000);
 canvas.appendChild(renderer.domElement);
 camera.position.set(2000, 2000, 2000);
 

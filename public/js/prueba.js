@@ -1,3 +1,4 @@
+//// Con Cubo
 var geometry = new THREE.BoxGeometry(3000, 1500, 3000);
 var cubeMaterials = [
   new THREE.MeshPhongMaterial({
@@ -41,24 +42,57 @@ var cubeMaterials = [
 ];
 var experimental = new THREE.Mesh(geometry, cubeMaterials);
 experimental.position.set(0, 1500 / 2, 0);
-scene.add(experimental);
+// scene.add(experimental);
 
-// geometry = new THREE.SphereGeometry(50, 30, 30);
+//// Crear el propio mesh
+// var geometry = new THREE.Geometry();
+// geometry.vertices.push(
+//   new THREE.Vector3(-1500, 0, -1500),
+//   new THREE.Vector3(-1500, 0, 1500),
+//   new THREE.Vector3(1500, 0, -1500),
+//   new THREE.Vector3(1500, 0, 1500)
+// );
+// geometry.faces.push(new THREE.Face3(0, 1, 2), new THREE.Face3(3, 2, 1));
+// geometry.computeBoundingSphere();
 // var material = new THREE.MeshPhongMaterial({
 //   color: 0x00ff00,
 //   specular: 0xffffff,
 //   shininess: 5,
+//   // side: THREE.DoubleSide,
 // });
-// var sphere = new THREE.Mesh(geometry, material);
-// sphere.position.set(0, 50, 0);
-// scene.add(sphere);
+// var plane = new THREE.Mesh(geometry, material);
+// scene.add(plane);
 
-var geometry = new THREE.PlaneGeometry(1000, 1500, 1, 1);
-var material = new THREE.MeshBasicMaterial({
-  color: 0xffff00,
-  side: THREE.BackSide,
-  //   wireframe: true,
+///// Con Varios planos
+var largo = 3000;
+
+var geometryPiso = new THREE.PlaneGeometry(largo, largo, 1, 1);
+var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 1, 1);
+var materialPlane = new THREE.MeshPhongMaterial({
+  color: 0x00ff00,
+  specular: 0xffffff,
+  shininess: 5,
+  // side: THREE.DoubleSide,
 });
-var plane = new THREE.Mesh(geometry, material);
-plane.position.set(0, 1500 / 2, 0);
-scene.add(plane);
+var plane1 = new THREE.Mesh(geometryPiso, materialPlane);
+plane1.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+scene.add(plane1);
+
+var plane2 = new THREE.Mesh(geometryPared, materialPlane);
+plane2.position.set(0, largo / 4, -largo / 2);
+scene.add(plane2);
+
+var plane3 = new THREE.Mesh(geometryPared, materialPlane);
+plane3.rotation.set(0, THREE.Math.degToRad(-90), 0);
+plane3.position.set(largo / 2, largo / 4, 0);
+scene.add(plane3);
+
+var plane4 = new THREE.Mesh(geometryPared, materialPlane);
+plane4.rotation.set(0, THREE.Math.degToRad(90), 0);
+plane4.position.set(-largo / 2, largo / 4, 0);
+scene.add(plane4);
+
+var plane5 = new THREE.Mesh(geometryPared, materialPlane);
+plane5.rotation.set(0, THREE.Math.degToRad(180), 0);
+plane5.position.set(0, largo / 4, largo / 2);
+scene.add(plane5);
