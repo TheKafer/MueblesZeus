@@ -20,9 +20,9 @@ var objects = [];
 //     );
 // });
 var cube;
-var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
-var geometry = new THREE.BoxGeometry( 100, 2, 100 );//geometría
-cube = new THREE.Mesh(geometry, material );
+var material = new THREE.MeshBasicMaterial({ color: 0xecff00 }); //color
+var geometry = new THREE.BoxGeometry(100, 2, 100); //geometría
+cube = new THREE.Mesh(geometry, material);
 var k = document.querySelectorAll('ul li ul li a');
 
 // for (let i of k) {
@@ -59,32 +59,48 @@ function addNewMesh(name) {
               renderer.domElement
             );
 
-            controlsDrag.addEventListener( 'dragstart', function ( event ) {
-              camera.position.set(event.object.position.x,3000,event.object.position.z);
-              camera.lookAt(new THREE.Vector3(event.object.position.x,0,event.object.position.z));
-              controls.target=new THREE.Vector3(event.object.position.x,0,event.object.position.z);
-              controls.enabled = false; 
-            } );
+            controlsDrag.addEventListener('dragstart', function (event) {
+              camera.position.set(
+                event.object.position.x,
+                3000,
+                event.object.position.z
+              );
+              camera.lookAt(
+                new THREE.Vector3(
+                  event.object.position.x,
+                  0,
+                  event.object.position.z
+                )
+              );
+              controls.target = new THREE.Vector3(
+                event.object.position.x,
+                0,
+                event.object.position.z
+              );
+              controls.enabled = false;
+            });
 
-            controlsDrag.addEventListener( 'drag', function ( event ) {
-              event.object.position.y=0;
+            controlsDrag.addEventListener('drag', function (event) {
+              event.object.position.y = 0;
               // let geometry = new THREE.BoxGeometry( event.object.scale.x, 2, event.object.scale.z );//geometría
-              cube.scale.x=event.object.scale.x;
-              cube.scale.z=event.object.scale.z;
-              cube.position.set( event.object.position.x,0, event.object.position.z);//posición en la escena
-              scene.add( cube );//se añade
-              
-            } );
+              cube.scale.x = event.object.scale.x;
+              cube.scale.z = event.object.scale.z;
+              cube.position.set(
+                event.object.position.x,
+                0,
+                event.object.position.z
+              ); //posición en la escena
+              scene.add(cube); //se añade
+            });
 
-            controlsDrag.addEventListener( 'dragend', function ( event ) {
+            controlsDrag.addEventListener('dragend', function (event) {
               controls.enabled = true;
-              event.object.position.y=0;
-              camera.position.set(2000,2000,2000);
-              camera.lookAt(new THREE.Vector3(0,0,0));
-              controls.target=new THREE.Vector3(0,0,0);
+              event.object.position.y = 0;
+              camera.position.set(2000, 2000, 2000);
+              camera.lookAt(new THREE.Vector3(0, 0, 0));
+              controls.target = new THREE.Vector3(0, 0, 0);
               scene.remove(cube);
-            } );
-
+            });
           },
           onProgress,
           onError
@@ -92,16 +108,15 @@ function addNewMesh(name) {
     });
 }
 
-
 import { DDSLoader } from './Loaders/DDSLoader.js';
 import { MTLLoader } from './Loaders/MTLLoader.js';
 import { OBJLoader } from './Loaders/OBJLoader.js';
 
 var onProgress = function (xhr) {
-  if (xhr.lengthComputable) {
-    var percentComplete = (xhr.loaded / xhr.total) * 100;
-    console.log(Math.round(percentComplete, 2) + '% downloaded');
-  }
+  // if (xhr.lengthComputable) {
+  //   var percentComplete = (xhr.loaded / xhr.total) * 100;
+  //   console.log(Math.round(percentComplete, 2) + '% downloaded');
+  // }
 };
 
 var onError = function () {};
