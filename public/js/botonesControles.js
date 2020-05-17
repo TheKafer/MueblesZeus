@@ -12,9 +12,7 @@ function deletePressed() {
 }
 function rotatePressed() {
     estado=2;
-    
 }
 function movePressed() {
-    estado=0;
-    
+    estado=0;  
 }
