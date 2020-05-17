@@ -2,8 +2,8 @@ var canvas = document.getElementById('canvas');//se obtiene el canvas
 var estado=0;
 
 var scene = new THREE.Scene();
-var axisHelper = new THREE.AxesHelper( 1500 );//se crean los ejes para facilitar todo
-scene.add( axisHelper );//se añaden los ejes a la escena
+var axisHelper = new THREE.AxesHelper(1500); //se crean los ejes para facilitar todo
+scene.add(axisHelper); //se añaden los ejes a la escena
 
 var renderer = new THREE.WebGLRenderer();
 // renderer.setSize(window.innerWidth, window.innerHeight);
@@ -14,9 +14,9 @@ var aspect = canvas.offsetWidth / canvas.clientHeight;
 
 //cámara y posición de ella
 
-var camera = new THREE.PerspectiveCamera(750, aspect, 1, 10000);
+var camera = new THREE.PerspectiveCamera(750, aspect, 1, 50000);
 canvas.appendChild(renderer.domElement);
-camera.position.set(2000,2000,2000);
+camera.position.set(2000, 2000, 2000);
 
 //se crea un cuadrado que representa el piso
 var geometry = new THREE.BoxGeometry( 3000, 10, 3000 );//geometría
@@ -81,9 +81,6 @@ window.addEventListener('resize', () => {
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 // camera.lookAt(new THREE.Vector3(1000,0,0));
 // controls.target=new THREE.Vector3(1000,0,0);
-
-
-
 
 // Light
 

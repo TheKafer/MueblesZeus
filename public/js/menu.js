@@ -4,9 +4,9 @@ var angulo=0;
 var objetoSeleccionado=undefined;
 
 var cube;
-var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
-var geometry = new THREE.BoxGeometry( 100, 2, 100 );//geometría
-cube = new THREE.Mesh(geometry, material );
+var material = new THREE.MeshBasicMaterial({ color: 0xecff00 }); //color
+var geometry = new THREE.BoxGeometry(100, 2, 100); //geometría
+cube = new THREE.Mesh(geometry, material);
 var k = document.querySelectorAll('ul li ul li a');
 
 
@@ -98,16 +98,15 @@ function addNewMesh(name) {
     });
 }
 
-
 import { DDSLoader } from './Loaders/DDSLoader.js';
 import { MTLLoader } from './Loaders/MTLLoader.js';
 import { OBJLoader } from './Loaders/OBJLoader.js';
 
 var onProgress = function (xhr) {
-  if (xhr.lengthComputable) {
-    var percentComplete = (xhr.loaded / xhr.total) * 100;
-    console.log(Math.round(percentComplete, 2) + '% downloaded');
-  }
+  // if (xhr.lengthComputable) {
+  //   var percentComplete = (xhr.loaded / xhr.total) * 100;
+  //   console.log(Math.round(percentComplete, 2) + '% downloaded');
+  // }
 };
 
 var onError = function () {};
