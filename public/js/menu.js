@@ -1,7 +1,7 @@
 import { DragControls } from './Controls/DragControls.js';
 var objects = [];
 var angulo=0;
-var objetoSeleccionado;
+var objetoSeleccionado=undefined;
 
 var cube;
 var material = new THREE.MeshBasicMaterial( {color: 0xECFF00 } );//color
@@ -43,18 +43,23 @@ function addNewMesh(name) {
             );
 
             controlsDrag.addEventListener( 'dragstart', function ( event ) {
+              objetoSeleccionado=event.object;            
               if(estado==0){
                 camera.position.set(event.object.position.x,3000,event.object.position.z);
                 camera.lookAt(new THREE.Vector3(event.object.position.x,0,event.object.position.z));
                 controls.target=new THREE.Vector3(event.object.position.x,0,event.object.position.z);
                 controls.enabled = false;
-                event.object.rotation.x = THREE.Math.degToRad( angulo );
               }
 
               if(estado==1){
                 event.object.scale.set(0,0,0);
               }
-              
+
+              if(estado==2){
+                controlsDrag.enabled=false;
+              }
+
+
             } );
 
             controlsDrag.addEventListener( 'drag', function ( event ) {   
@@ -65,7 +70,8 @@ function addNewMesh(name) {
                 cube.scale.z=event.object.scale.z;
                 cube.position.set( event.object.position.x,0, event.object.position.z);//posición en la escena
                 scene.add( cube );//se añade  
-              }    
+              }
+              
             } );
 
             controlsDrag.addEventListener( 'dragend', function ( event ) { 
@@ -78,6 +84,12 @@ function addNewMesh(name) {
                 scene.remove(cube);
                 scene.remove(event.object);
               }
+
+              if(estado==2){
+                controlsDrag.enabled=true;
+              }
+
+
             } );
 
           },
@@ -103,6 +115,30 @@ var onError = function () {};
 
 var manager = new THREE.LoadingManager();
 manager.addHandler(/\.dds$/i, new DDSLoader());
+
+document.addEventListener('keypress', logKey);
+
+function logKey(e) {
+  if(e.key=="a"){
+    if(estado==2){
+      if(objetoSeleccionado!=undefined){
+        objetoSeleccionado.rotateY(THREE.Math.degToRad(1));     
+      }
+    }
+  }
+  if(e.key=="d"){
+    if(estado==2){
+      if(objetoSeleccionado!=undefined){
+        objetoSeleccionado.rotateY(THREE.Math.degToRad(-1));
+      }
+    }
+  }
+}
+
+
+
+
+
 
 // comment in the following line and import TGALoader if your asset uses TGA textures
 // manager.addHandler( /\.tga$/i, new TGALoader() );

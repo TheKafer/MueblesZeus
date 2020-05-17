@@ -8,11 +8,13 @@ btnRotate.addEventListener('click', rotatePressed);
 btnMove.addEventListener('click', movePressed);
 
 function deletePressed() {
-    estado=1;
+    estado=1;  
 }
 function rotatePressed() {
     estado=2;
+    
 }
 function movePressed() {
     estado=0;
+    
 }
