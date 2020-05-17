@@ -5,7 +5,7 @@ const texture = loader.load('Objects/textures/2.jpg');
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
 texture.magFilter = THREE.NearestFilter;
-texture.repeat.set(5,5);
+texture.repeat.set(5, 5);
 
 //se crea un cuadro que representa la pared
 const texture2 = loader.load('Objects/textures/3.jpg');
@@ -13,12 +13,12 @@ const texture2 = loader.load('Objects/textures/3.jpg');
 texture2.wrapS = THREE.RepeatWrapping;
 texture2.wrapT = THREE.RepeatWrapping;
 texture2.magFilter = THREE.NearestFilter;
-texture2.repeat.set(10,5);
+texture2.repeat.set(10, 5);
 
 var materialPared = new THREE.MeshPhongMaterial({
-  map:texture2,
-  bumpMap:texture2,
-  normalMap:texture2,
+  map: texture2,
+  bumpMap: texture2,
+  normalMap: texture2,
   specular: 0xffffff,
   shininess: 5,
 });
@@ -30,9 +30,9 @@ var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 1, 1);
 var materialPiso = new THREE.MeshPhongMaterial({
   specular: 0xffffff,
   shininess: 5,
-  map:texture,
-  bumpMap:texture,
-  normalMap:texture,
+  map: texture,
+  bumpMap: texture,
+  normalMap: texture,
 });
 var plane1 = new THREE.Mesh(geometryPiso, materialPiso);
 plane1.rotation.set(THREE.Math.degToRad(-90), 0, 0);
