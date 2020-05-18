@@ -1,8 +1,7 @@
 import { DragControls } from './Controls/DragControls.js';
 var objects = [];
-var angulo = 0;
+
 var objetoSeleccionado = undefined;
-var camaraposicion = undefined;
 var cube;
 var material = new THREE.MeshBasicMaterial({ color: 0xecff00 }); //color
 var geometry = new THREE.BoxGeometry(100, 2, 100); //geometría
@@ -75,13 +74,14 @@ controlsDrag.addEventListener('dragstart', function (event) {
 });
 
 controlsDrag.addEventListener('drag', function (event) {
+  objetoSeleccionado=event.object;
   if (estado == 0) {
     event.object.position.y = 0;
-      cube.material.color.setHex(0xecff00);
-      cube.scale.x = event.object.scale.x;
-      cube.scale.z = event.object.scale.z;
-      cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
-      scene.add(cube); //se añade
+    cube.material.color.setHex(0xecff00);
+    cube.scale.x = event.object.scale.x;
+    cube.scale.z = event.object.scale.z;
+    cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
+    scene.add(cube); //se añade
     
   }
 });
