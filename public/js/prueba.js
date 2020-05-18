@@ -23,7 +23,7 @@ var materialPared = new THREE.MeshPhongMaterial({
   shininess: 1,
 });
 
-var largo = 3000;
+var largo = 1000;
 
 var geometryPiso = new THREE.PlaneGeometry(largo, largo, 5, 5);
 var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 5, 5);

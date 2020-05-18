@@ -103,7 +103,7 @@ controlsDrag.addEventListener('dragend', function (event) {
   if (estado == 0) {
     controls.enabled = true;
     event.object.position.y = 0;
-    camera.position.set(2000, 2000, 2000);
+    camera.position.set(1000, 1000, 1000);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     controls.target = new THREE.Vector3(0, 0, 0);
     scene.remove(cube);
