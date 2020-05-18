@@ -1,4 +1,6 @@
 //// Con Cubo
+
+
 const loader = new THREE.TextureLoader();
 const texture = loader.load('Objects/textures/2.jpg');
 
