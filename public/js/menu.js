@@ -32,21 +32,7 @@ function addNewMesh(name) {
         .load(
           name + '.obj',
           function (object) {
-            // var escalas=[];
-            // for(let i=0;i<transformaciones.length;i++){
-            //   if(transformaciones[i].name==name){
-            //     escalas=transformaciones[i];
-            //   }
-            // }
-            // console.log(escalas);
-            // object.scale.set(escalas.escalaX,escalas.escalaY,escalas.escalaZ);
-            // object.rotateX(THREE.Math.degToRad(escalas.rotacionx));
-            // object.rotateY(THREE.Math.degToRad(escalas.rotaciony));
-            // object.rotateZ(THREE.Math.degToRad(escalas.rotacionz));
-            // object.position.set(escalas.posicionx,escalas.posiciony,escalas.posicionz);
-
-            // object.rotate.set(THREE.Math.degToRad(escalas.rotacionx),THREE.Math.degToRad(escalas.rotaciony),THREE.Math.degToRad(escalas.rotacionz));
-
+          
             object.traverse(function (node) {
               node.castShadow = true;
               node.receiveShadow = true;
@@ -65,8 +51,7 @@ var controlsDrag = new DragControls(objects, camera, renderer.domElement);
 
 controlsDrag.addEventListener('dragstart', function (event) {
   objetoSeleccionado = event.object;
-  posicionx=event.object.posicionx;
-  posicionz=event.object.posicionz;
+ 
   if (estado == 0) {
     camera.position.set(event.object.position.x, 3000, event.object.position.z);
     camera.lookAt(
@@ -81,15 +66,7 @@ controlsDrag.addEventListener('dragstart', function (event) {
   }
 
   if (estado == 1) {
-    // event.object.scale.set(0,0,0);
-    // var index=objects.indexOf(event.object);
-    // objects.splice(index,1);
     event.object.scale.set(0, 0, 0);
-    // scene.remove(event.object);
-    // event.object.geometry.dispose();
-    // event.object.material.dispose();
-    // console.log('delete');
-    // GameLoop();
   }
 
   if (estado == 2) {
@@ -100,20 +77,12 @@ controlsDrag.addEventListener('dragstart', function (event) {
 controlsDrag.addEventListener('drag', function (event) {
   if (estado == 0) {
     event.object.position.y = 0;
-    // let geometry = new THREE.BoxGeometry( event.object.scale.x, 2, event.object.scale.z );//geometría
-    if (event.object.position.x < 500 && event.object.position.x > -500) {
       cube.material.color.setHex(0xecff00);
       cube.scale.x = event.object.scale.x;
       cube.scale.z = event.object.scale.z;
       cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
       scene.add(cube); //se añade
-    } else {
-      cube.scale.x = event.object.scale.x;
-      cube.scale.z = event.object.scale.z;
-      cube.material.color.setHex(0xffffff);
-      cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
-      scene.add(cube); //se añade
-    }
+    
   }
 });
 
@@ -139,10 +108,7 @@ import { MTLLoader } from './Loaders/MTLLoader.js';
 import { OBJLoader } from './Loaders/OBJLoader.js';
 
 var onProgress = function (xhr) {
-  // if (xhr.lengthComputable) {
-  //   var percentComplete = (xhr.loaded / xhr.total) * 100;
-  //   console.log(Math.round(percentComplete, 2) + '% downloaded');
-  // }
+
 };
 
 var onError = function () {};
@@ -168,6 +134,3 @@ function logKey(e) {
     }
   }
 }
-
-// comment in the following line and import TGALoader if your asset uses TGA textures
-// manager.addHandler( /\.tga$/i, new TGALoader() );
