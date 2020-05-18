@@ -2,11 +2,12 @@ import { DragControls } from './Controls/DragControls.js';
 var objects = [];
 var angulo = 0;
 var objetoSeleccionado = undefined;
-
+var camaraposicion = undefined;
 var cube;
 var material = new THREE.MeshBasicMaterial({ color: 0xecff00 }); //color
 var geometry = new THREE.BoxGeometry(100, 2, 100); //geometría
 cube = new THREE.Mesh(geometry, material);
+
 var k = document.querySelectorAll('ul li ul li a');
 
 for (let i = 0; i < k.length; i++) {
@@ -19,6 +20,7 @@ for (let i = 0; i < k.length; i++) {
 function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
+
   new MTLLoader(manager)
     .setPath('Objects/' + name + '/')
     .load(name + '.mtl', function (materials) {
@@ -45,6 +47,11 @@ function addNewMesh(name) {
 
             // object.rotate.set(THREE.Math.degToRad(escalas.rotacionx),THREE.Math.degToRad(escalas.rotaciony),THREE.Math.degToRad(escalas.rotacionz));
 
+            object.traverse(function (node) {
+              node.castShadow = true;
+              node.receiveShadow = true;
+            });
+            // object.receiveShadow = true; //default
             scene.add(object);
             objects.push(object);
           },
@@ -92,10 +99,19 @@ controlsDrag.addEventListener('drag', function (event) {
   if (estado == 0) {
     event.object.position.y = 0;
     // let geometry = new THREE.BoxGeometry( event.object.scale.x, 2, event.object.scale.z );//geometría
-    cube.scale.x = event.object.scale.x;
-    cube.scale.z = event.object.scale.z;
-    cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
-    scene.add(cube); //se añade
+    if (event.object.position.x < 500 && event.object.position.x > -500) {
+      cube.material.color.setHex(0xecff00);
+      cube.scale.x = event.object.scale.x;
+      cube.scale.z = event.object.scale.z;
+      cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
+      scene.add(cube); //se añade
+    } else {
+      cube.scale.x = event.object.scale.x;
+      cube.scale.z = event.object.scale.z;
+      cube.material.color.setHex(0xffffff);
+      cube.position.set(event.object.position.x, 0, event.object.position.z); //posición en la escena
+      scene.add(cube); //se añade
+    }
   }
 });
 
@@ -103,7 +119,7 @@ controlsDrag.addEventListener('dragend', function (event) {
   if (estado == 0) {
     controls.enabled = true;
     event.object.position.y = 0;
-    camera.position.set(2000, 2000, 2000);
+    camera.position.set(1000, 1000, 1000);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     controls.target = new THREE.Vector3(0, 0, 0);
     scene.remove(cube);
