@@ -39,10 +39,10 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 // renderer.shadowMap.type = THREE.BasicShadowMap;
 
 // Light
-var alight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
+var alight = new THREE.AmbientLight(0xffffff, 0.8); // soft white light
 scene.add(alight);
 
-var dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+var dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
 dirLight.name = 'Dir. Light';
 dirLight.position.set(-500, 500, 500);
 dirLight.castShadow = true;
@@ -54,7 +54,7 @@ dirLight.shadow.camera.top = 1000;
 dirLight.shadow.camera.bottom = -1000;
 dirLight.shadow.mapSize.width = 3072;
 dirLight.shadow.mapSize.height = 3072;
-scene.add(dirLight);
+// scene.add(dirLight);
 // scene.add(new THREE.CameraHelper(dirLight.shadow.camera));
 
 var dirLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
