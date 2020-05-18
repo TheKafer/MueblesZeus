@@ -19,6 +19,7 @@ for (let i = 0; i < k.length; i++) {
 function addNewMesh(name) {
   // Buscar archivos con respecto al nombre
   console.log(name);
+
   new MTLLoader(manager)
     .setPath('Objects/' + name + '/')
     .load(name + '.mtl', function (materials) {
@@ -45,6 +46,11 @@ function addNewMesh(name) {
 
             // object.rotate.set(THREE.Math.degToRad(escalas.rotacionx),THREE.Math.degToRad(escalas.rotaciony),THREE.Math.degToRad(escalas.rotacionz));
 
+            object.traverse(function (node) {
+              node.castShadow = true;
+              node.receiveShadow = true;
+            });
+            // object.receiveShadow = true; //default
             scene.add(object);
             objects.push(object);
           },
