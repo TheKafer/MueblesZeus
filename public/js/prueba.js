@@ -1,4 +1,5 @@
 //// Con Cubo
+
 const loader = new THREE.TextureLoader();
 const texture = loader.load('Objects/textures/2.jpg');
 
@@ -23,7 +24,7 @@ var materialPared = new THREE.MeshPhongMaterial({
   shininess: 5,
 });
 
-var largo = 3000;
+var largo = 1000;
 
 var geometryPiso = new THREE.PlaneGeometry(largo, largo, 5, 5);
 var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 5, 5);
