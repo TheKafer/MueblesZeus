@@ -1,4 +1,6 @@
 //// Con Cubo
+
+
 const loader = new THREE.TextureLoader();
 const texture = loader.load('Objects/textures/2.jpg');
 
@@ -17,22 +19,22 @@ texture2.repeat.set(10, 5);
 
 var materialPared = new THREE.MeshPhongMaterial({
   map: texture2,
-  bumpMap: texture2,
-  normalMap: texture2,
+  // bumpMap: texture2,
+  // normalMap: texture2,
   specular: 0xffffff,
-  shininess: 5,
+  shininess: 1,
 });
 
-var largo = 3000;
+var largo = 1000;
 
-var geometryPiso = new THREE.PlaneGeometry(largo, largo, 1, 1);
-var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 1, 1);
+var geometryPiso = new THREE.PlaneGeometry(largo, largo, 5, 5);
+var geometryPared = new THREE.PlaneGeometry(largo, largo / 2, 5, 5);
 var materialPiso = new THREE.MeshPhongMaterial({
   specular: 0xffffff,
-  shininess: 5,
+  shininess: 1,
   map: texture,
-  bumpMap: texture,
-  normalMap: texture,
+  // bumpMap: texture,
+  // normalMap: texture,
 });
 var plane1 = new THREE.Mesh(geometryPiso, materialPiso);
 plane1.rotation.set(THREE.Math.degToRad(-90), 0, 0);
