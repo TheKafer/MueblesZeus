@@ -1,5 +1,5 @@
-var canvas = document.getElementById('canvas');//se obtiene el canvas
-var estado=0;
+var canvas = document.getElementById('canvas'); //se obtiene el canvas
+var estado = 0;
 
 var scene = new THREE.Scene();
 var axisHelper = new THREE.AxesHelper(1500); //se crean los ejes para facilitar todo
@@ -34,8 +34,11 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Light
 
-var light = new THREE.AmbientLight( 0xffffff ); // soft white light
-scene.add( light );
+var light = new THREE.AmbientLight(0xffffff); // soft white light
+scene.add(light);
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+directionalLight.position.set(3000, 3000, 3000);
+scene.add(directionalLight);
 
 // var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
 // keyLight.position.set(-100, 0, 100);
@@ -46,8 +49,6 @@ scene.add( light );
 // scene.add(keyLight);
 // scene.add(fillLight);
 // scene.add(backLight);
-
-
 
 // draw scene
 var render = () => {
